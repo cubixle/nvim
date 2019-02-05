@@ -4,11 +4,16 @@ set nu
 syntax enable
 set nocursorline
 let mapleader=","
+let OPSYSTEM = system('uname')
 
 filetype plugin indent on
 
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+if OPSYSTEM == "Darwin" 
+	set rtp+=/usr/local/opt/fzf
+endif
 
 call plug#begin()
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
@@ -23,13 +28,25 @@ Plug 'owickstrom/vim-colors-paramount'
 Plug 'ninja/sky'
 Plug 'fortes/vim-escuro'
 Plug 'fenetikm/falcon'
-Plug '~/.fzf'
-Plug 'junegunn/fzf.vim'
+
+""if OPSYSTEM == "Darwin"
+	Plug '/usr/local/opt/fzf'
+""else
+""	Plug '~/fzf'
+""endif
+
 Plug 'junegunn/limelight.vim'
+Plug 'junegunn/fzf.vim'
 Plug 'flazz/vim-colorschemes'
 call plug#end()
 
-autocmd VimEnter * Limelight
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
 
 let g:NERDTreeNodeDelimiter = "\u00a0"
 map <C-n> :NERDTreeToggle<CR>
